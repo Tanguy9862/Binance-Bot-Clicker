@@ -7,13 +7,15 @@ from selenium.webdriver.common.by import By
 
 EMAIL = "email@twitter.com"
 PASSWORD = "motdepasse"
-GMAIL = "adresse@gmail.com"
-PASSWORD_MAIL = "password"
+GMAIL = "hidekytest@gmail.com"
+PASSWORD_MAIL = "123456789azE@!"
 CLICK_TIMER = 5
 has_clicked = False
 need_to_login = False
 current_time = datetime.now()
 service = Service("C:\Development\chromedriver.exe")
+
+
 
 driver = webdriver.Chrome(service=service)
 driver.get("https://www.binance.com/en/activity/bitcoin-button-game")
@@ -67,6 +69,8 @@ while True:
 
 if has_clicked:
     with smtplib.SMTP("smtp.gmail.com") as connection:
+        message = f"Clique enregistré le {current_time}"
         connection.starttls()
         connection.login(user=GMAIL, password=PASSWORD_MAIL)
-        connection.sendmail(from_addr=GMAIL, to_addrs=GMAIL, msg=f"Subject:Bitcoin Binance Game!\n\nClique enregistré le {current_time}")
+        connection.sendmail(from_addr=GMAIL, to_addrs=GMAIL,
+                            msg=f"Subject:Bitcoin Binance Game!\n\n{message.encode()}")
