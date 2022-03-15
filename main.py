@@ -1,4 +1,5 @@
 import time
+import smtplib
 from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -6,6 +7,8 @@ from selenium.webdriver.common.by import By
 
 EMAIL = "email@twitter.com"
 PASSWORD = "motdepasse"
+GMAIL = "adresse@gmail.com"
+PASSWORD_MAIL = "password"
 CLICK_TIMER = 5
 has_clicked = False
 need_to_login = False
@@ -63,4 +66,7 @@ while True:
         break
 
 if has_clicked:
-    print(f'Clique enregistré le {current_time}')
+    with smtplib.SMTP("smtp.gmail.com") as connection:
+        connection.starttls()
+        connection.login(user=GMAIL, password=PASSWORD_MAIL)
+        connection.sendmail(from_addr=GMAIL, to_addrs=GMAIL, msg=f"Subject:Bitcoin Binance Game!\n\nClique enregistré le {current_time}")
