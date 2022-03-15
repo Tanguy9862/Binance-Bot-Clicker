@@ -51,7 +51,7 @@ while True:
     second = driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[1]/div[2]/div[4]/div[2]').text
 
     if int(first+second) <= 3:
-        while driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[1]/div[1]/div[4]/div[2]').text+driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[1]/div[2]/div[4]/div[2]').text <= 3:
+        while int(driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[1]/div[1]/div[4]/div[2]').text+driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[1]/div[2]/div[4]/div[2]').text) <= 3:
             if int(driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[2]/div[1]/div[4]/div[2]').text+driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[2]/div[2]/div[4]/div[2]').text) <= CLICK_TIMER:
                 driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[5]/div').click()
                 has_clicked = True
