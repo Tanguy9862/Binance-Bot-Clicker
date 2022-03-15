@@ -21,34 +21,34 @@ authorized_cookies = driver.find_element(By.XPATH, '//*[@id="onetrust-accept-btn
 authorized_cookies.click()
 time.sleep(1)
 
-if need_to_login:
-    sign_in_button = driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[2]/div/div[1]/div[2]')
-    sign_in_button.click()
-    time.sleep(3)
+sign_in_button = driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[2]/div/div[1]/div[2]')
+sign_in_button.click()
+time.sleep(3)
 
-    terms_check_box = driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div/div[4]/label/div[1]')
-    terms_check_box.click()
+terms_check_box = driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div/div[4]/label/div[1]')
+terms_check_box.click()
 
-    twitter_login = driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div/div[3]/div[1]/div[4]/div/div/button')
-    twitter_login.click()
-    time.sleep(2)
+twitter_login = driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div/div[3]/div[1]/div[4]/div/div/button')
+twitter_login.click()
+time.sleep(2)
 
-    email_input = driver.find_element(By.XPATH, '//*[@id="username_or_email"]')
-    email_input.send_keys(EMAIL)
+email_input = driver.find_element(By.XPATH, '//*[@id="username_or_email"]')
+email_input.send_keys(EMAIL)
 
-    password_input = driver.find_element(By.XPATH, '//*[@id="password"]')
-    password_input.send_keys(PASSWORD)
+password_input = driver.find_element(By.XPATH, '//*[@id="password"]')
+password_input.send_keys(PASSWORD)
 
-    remember_me = driver.find_element(By.XPATH, '//*[@id="remember"]')
-    remember_me.click()
+remember_me = driver.find_element(By.XPATH, '//*[@id="remember"]')
+remember_me.click()
 
-    time.sleep(2)
-    login = driver.find_element(By.XPATH, '//*[@id="allow"]')
-    login.click()
+time.sleep(2)
+login = driver.find_element(By.XPATH, '//*[@id="allow"]')
+login.click()
 
-time.sleep(60)
+time.sleep(7)
 
 while True:
+    print("caca")
     first = driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[1]/div[1]/div[4]/div[2]').text
     second = driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[1]/div[2]/div[4]/div[2]').text
 
