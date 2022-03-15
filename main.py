@@ -11,7 +11,6 @@ GMAIL = "gmail@gmail.com"
 PASSWORD_MAIL = "password"
 CLICK_TIMER = 5
 has_clicked = False
-need_to_login = False
 current_time = datetime.now()
 service = Service("C:\Development\chromedriver.exe")
 
