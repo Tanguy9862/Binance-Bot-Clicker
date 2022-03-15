@@ -7,15 +7,13 @@ from selenium.webdriver.common.by import By
 
 EMAIL = "email@twitter.com"
 PASSWORD = "motdepasse"
-GMAIL = "hidekytest@gmail.com"
-PASSWORD_MAIL = "123456789azE@!"
+GMAIL = "gmail@gmail.com"
+PASSWORD_MAIL = "password"
 CLICK_TIMER = 5
 has_clicked = False
 need_to_login = False
 current_time = datetime.now()
 service = Service("C:\Development\chromedriver.exe")
-
-
 
 driver = webdriver.Chrome(service=service)
 driver.get("https://www.binance.com/en/activity/bitcoin-button-game")
