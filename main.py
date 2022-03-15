@@ -48,7 +48,6 @@ login.click()
 time.sleep(7)
 
 while True:
-    print("caca")
     first = driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[1]/div[1]/div[4]/div[2]').text
     second = driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[1]/div[2]/div[4]/div[2]').text
 
