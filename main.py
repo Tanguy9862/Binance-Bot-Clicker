@@ -61,11 +61,9 @@ while True:
             driver.quit()
 
     if has_clicked:
+        with smtplib.SMTP("smtp.gmail.com") as connection:
+            message = f"Subject:Bitcoin Binance Game!\n\nClique enregistré le {current_time}".encode("utf-8")
+            connection.starttls()
+            connection.login(user=GMAIL, password=PASSWORD_MAIL)
+            connection.sendmail(from_addr=GMAIL, to_addrs=GMAIL, msg=message)
         break
-
-if has_clicked:
-    with smtplib.SMTP("smtp.gmail.com") as connection:
-        message = f"Subject:Bitcoin Binance Game!\n\nClique enregistré le {current_time}".encode("utf-8")
-        connection.starttls()
-        connection.login(user=GMAIL, password=PASSWORD_MAIL)
-        connection.sendmail(from_addr=GMAIL, to_addrs=GMAIL, msg=message)
