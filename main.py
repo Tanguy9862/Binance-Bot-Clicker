@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 
 EMAIL = "email@twitter.com"
 PASSWORD = "motdepasse"
-GMAIL = "gmail@gmail.com"
+GMAIL = "@gmail.com"
 PASSWORD_MAIL = "password"
 CLICK_TIMER = 5
 has_clicked = False
@@ -53,21 +53,19 @@ while True:
     first = driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[1]/div[1]/div[4]/div[2]').text
     second = driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[1]/div[2]/div[4]/div[2]').text
 
-    if int(first+second) <= 3:
-        while int(driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[1]/div[1]/div[4]/div[2]').text+driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[1]/div[2]/div[4]/div[2]').text) <= 3:
-            if int(driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[2]/div[1]/div[4]/div[2]').text+driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[2]/div[2]/div[4]/div[2]').text) <= CLICK_TIMER:
-                driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[5]/div').click()
-                has_clicked = True
-                current_time = datetime.now()
-                driver.quit()
+    while int(first+second) <= 1:
+        if int(driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[2]/div[1]/div[4]/div[2]').text+driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[2]/div[2]/div[4]/div[2]').text) <= CLICK_TIMER:
+            driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[5]/div').click()
+            has_clicked = True
+            current_time = datetime.now()
+            driver.quit()
 
     if has_clicked:
         break
 
 if has_clicked:
     with smtplib.SMTP("smtp.gmail.com") as connection:
-        message = f"Clique enregistré le {current_time}"
+        message = f"Subject:Bitcoin Binance Game!\n\nClique enregistré le {current_time}".encode("utf-8")
         connection.starttls()
         connection.login(user=GMAIL, password=PASSWORD_MAIL)
-        connection.sendmail(from_addr=GMAIL, to_addrs=GMAIL,
-                            msg=f"Subject:Bitcoin Binance Game!\n\n{message.encode()}")
+        connection.sendmail(from_addr=GMAIL, to_addrs=GMAIL, msg=message)
