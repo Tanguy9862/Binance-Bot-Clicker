@@ -4,12 +4,13 @@ from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from email.message import EmailMessage
 
-EMAIL = "email@twitter.com"
-PASSWORD = "motdepasse"
-GMAIL = "@gmail.com"
-PASSWORD_MAIL = "password"
-CLICK_TIMER = 5
+EMAIL = "mail@twitter.com"
+PASSWORD = "twitter_password"
+GMAIL = "mail@gmail.com"
+PASSWORD_MAIL = "mail_password"
+CLICK_TIMER = 7
 has_clicked = False
 current_time = datetime.now()
 service = Service("C:\Development\chromedriver.exe")
@@ -56,14 +57,24 @@ while True:
     while int(first+second) <= 1:
         if int(driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[2]/div[1]/div[4]/div[2]').text+driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[2]/div[2]/div[4]/div[2]').text) <= CLICK_TIMER:
             driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[5]/div').click()
+            time.sleep(5)
+            driver.save_screenshot("screenshot.png")
             has_clicked = True
             current_time = datetime.now()
-            driver.quit()
+            break
 
     if has_clicked:
+        driver.quit()
+        message = EmailMessage()
+        message['Subject'] = 'Bitcoin Binance Game'
+        message.set_content(f'Clique enregistré le {current_time}')
+
+        with open('screenshot.png', 'rb') as fp:
+            img_data = fp.read()
+        message.add_attachment(img_data, maintype='image', subtype='png')
+
         with smtplib.SMTP("smtp.gmail.com") as connection:
-            message = f"Subject:Bitcoin Binance Game!\n\nClique enregistré le {current_time}".encode("utf-8")
             connection.starttls()
             connection.login(user=GMAIL, password=PASSWORD_MAIL)
-            connection.sendmail(from_addr=GMAIL, to_addrs=GMAIL, msg=message)
+            connection.sendmail(from_addr=GMAIL, to_addrs=GMAIL, msg=message.as_string())
         break
