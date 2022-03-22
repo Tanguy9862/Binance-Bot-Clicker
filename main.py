@@ -6,17 +6,67 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from email.message import EmailMessage
 
-EMAIL = "mail@twitter.com"
-PASSWORD = "twitter_password"
-GMAIL = "mail@gmail.com"
-PASSWORD_MAIL = "mail_password"
+print("""
+  ____ _____ _   _          _   _  _____ ______   ____   ____ _______  
+ |  _ \_   _| \ | |   /\   | \ | |/ ____|  ____| |  _ \ / __ \__   __| 
+ | |_) || | |  \| |  /  \  |  \| | |    | |__    | |_) | |  | | | |    
+ |  _ < | | | . ` | / /\ \ | . ` | |    |  __|   |  _ <| |  | | | |    
+ | |_) || |_| |\  |/ ____ \| |\  | |____| |____  | |_) | |__| | | |    
+ |____/_____|_| \_/_/    \_\_| \_|\_____|______| |____/ \____/  |_|                                                                           
+""")
+
+GMAIL = input("GMAIL address: ")
+PASSWORD_MAIL = input("GMAIL password: ")
 CLICK_TIMER = 7
 has_clicked = False
+login_method = ""
 current_time = datetime.now()
-service = Service("C:\Development\chromedriver.exe")
+service = Service(input("Path to chrome driver: "))
+
+
+def bot_clicker(has_clicked, current_time):
+    print('[+] Script is now running..')
+    while True:
+        first = driver.find_element(By.XPATH,
+                                    '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[1]/div[1]/div[4]/div[2]').text
+        second = driver.find_element(By.XPATH,
+                                     '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[1]/div[2]/div[4]/div[2]').text
+
+        while int(first + second) <= 1:
+            if int(driver.find_element(By.XPATH,'//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[2]/div[1]/div[4]/div[2]').text+driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[2]/div[2]/div[4]/div[2]').text) <= CLICK_TIMER:
+                driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[5]/div').click()
+                time.sleep(5)
+                driver.save_screenshot("screenshot.png")
+                has_clicked = True
+                current_time = datetime.now()
+                print(f'[+] Click trigerred on {current_time}')
+                break
+
+        if has_clicked:
+            driver.quit()
+            message = EmailMessage()
+            message['Subject'] = 'Bitcoin Binance Game'
+            message.set_content(f'Clique enregistré le {current_time}')
+
+            with open('screenshot.png', 'rb') as fp:
+                img_data = fp.read()
+            message.add_attachment(img_data, maintype='image', subtype='png')
+
+            try:
+                with smtplib.SMTP("smtp.gmail.com") as connection:
+                    connection.starttls()
+                    connection.login(user=GMAIL, password=PASSWORD_MAIL)
+                    connection.sendmail(from_addr=GMAIL, to_addrs=GMAIL, msg=message.as_string())
+            except smtplib.SMTPAuthenticationError:
+                print("[+] Email cannot be sent")
+            else:
+                print("[+] Email successfully sent")
+            finally:
+                break
+
 
 driver = webdriver.Chrome(service=service)
-driver.get("https://www.binance.com/en/activity/bitcoin-button-game")
+driver.get("https://www.binance.com/en/activity/bitcoin-button-game/login")
 driver.maximize_window()
 time.sleep(3)
 
@@ -24,57 +74,28 @@ authorized_cookies = driver.find_element(By.XPATH, '//*[@id="onetrust-accept-btn
 authorized_cookies.click()
 time.sleep(1)
 
-sign_in_button = driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[2]/div/div[1]/div[2]')
-sign_in_button.click()
-time.sleep(3)
+while login_method != 'b' and login_method != 't':
+    login_method = input("Choose your login method('B' for Binance or 'T' for Twitter): ").lower()
 
 terms_check_box = driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div/div[4]/label/div[1]')
 terms_check_box.click()
 
-twitter_login = driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div/div[3]/div[1]/div[4]/div/div/button')
-twitter_login.click()
-time.sleep(2)
-
-email_input = driver.find_element(By.XPATH, '//*[@id="username_or_email"]')
-email_input.send_keys(EMAIL)
-
-password_input = driver.find_element(By.XPATH, '//*[@id="password"]')
-password_input.send_keys(PASSWORD)
-
-remember_me = driver.find_element(By.XPATH, '//*[@id="remember"]')
-remember_me.click()
-
-time.sleep(2)
-login = driver.find_element(By.XPATH, '//*[@id="allow"]')
-login.click()
-
-time.sleep(7)
-
-while True:
-    first = driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[1]/div[1]/div[4]/div[2]').text
-    second = driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[1]/div[2]/div[4]/div[2]').text
-
-    while int(first+second) <= 1:
-        if int(driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[2]/div[1]/div[4]/div[2]').text+driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[3]/div/div[2]/div[2]/div[4]/div[2]').text) <= CLICK_TIMER:
-            driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div[5]/div').click()
-            time.sleep(5)
-            driver.save_screenshot("screenshot.png")
-            has_clicked = True
-            current_time = datetime.now()
-            break
-
-    if has_clicked:
+if login_method == 't':
+    driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div/div[3]/div[1]/div[4]/div/div/button/div[4]').click()
+    login_state = input("Press 'y' when logged in: ").lower()
+    if login_state == 'y':
+        bot_clicker(has_clicked=has_clicked, current_time=current_time)
+    else:
         driver.quit()
-        message = EmailMessage()
-        message['Subject'] = 'Bitcoin Binance Game'
-        message.set_content(f'Clique enregistré le {current_time}')
-
-        with open('screenshot.png', 'rb') as fp:
-            img_data = fp.read()
-        message.add_attachment(img_data, maintype='image', subtype='png')
-
-        with smtplib.SMTP("smtp.gmail.com") as connection:
-            connection.starttls()
-            connection.login(user=GMAIL, password=PASSWORD_MAIL)
-            connection.sendmail(from_addr=GMAIL, to_addrs=GMAIL, msg=message.as_string())
-        break
+        exit()
+elif login_method == 'b':
+    driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div/div[3]/div[2]/div[4]/div/div/button/div[4]').click()
+    login_state = input("Press 'y' when logged in: ").lower()
+    if login_state == 'y':
+        bot_clicker(has_clicked=has_clicked, current_time=current_time)
+    else:
+        driver.quit()
+        exit()
+else:
+    driver.quit()
+    exit()
