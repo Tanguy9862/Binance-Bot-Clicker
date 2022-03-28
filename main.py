@@ -18,9 +18,7 @@ print("""
 GMAIL = input("GMAIL address: ")
 PASSWORD_MAIL = input("GMAIL password: ")
 CLICK_TIMER = 7
-has_clicked = False
 login_method = ""
-current_time = datetime.now()
 service = Service(input("Path to chrome driver: "))
 
 
@@ -84,7 +82,7 @@ if login_method == 't':
     driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div/div[3]/div[1]/div[4]/div/div/button/div[4]').click()
     login_state = input("Press 'y' when logged in: ").lower()
     if login_state == 'y':
-        bot_clicker(has_clicked=has_clicked, current_time=current_time)
+        bot_clicker(has_clicked=False, current_time=datetime.now())
     else:
         driver.quit()
         exit()
@@ -92,7 +90,7 @@ elif login_method == 'b':
     driver.find_element(By.XPATH, '//*[@id="__APP"]/div[2]/div[3]/div/div[3]/div[2]/div[4]/div/div/button/div[4]').click()
     login_state = input("Press 'y' when logged in: ").lower()
     if login_state == 'y':
-        bot_clicker(has_clicked=has_clicked, current_time=current_time)
+        bot_clicker(has_clicked=False, current_time=datetime.now())
     else:
         driver.quit()
         exit()
