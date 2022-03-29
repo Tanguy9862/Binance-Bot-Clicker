@@ -17,7 +17,7 @@ print("""
 
 GMAIL = input("GMAIL address: ")
 PASSWORD_MAIL = input("GMAIL password: ")
-CLICK_TIMER = 7
+CLICK_TIMER = 4
 login_method = ""
 service = Service(input("Path to chrome driver: "))
 
